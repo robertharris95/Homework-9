@@ -114,6 +114,8 @@ var renderNoteList = function(notes) {
 
   for (var i = 0; i < notes.length; i++) {
     var note = notes[i];
+    console.log(typeof note)
+    console.log(typeof notes)
     var $li = $("<li class='list-group-item'>").data(note);
     var $span = $("<span>").text(note.title);
     var $delBtn = $(
