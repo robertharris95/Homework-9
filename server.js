@@ -26,7 +26,6 @@ app.get("/notes", function(req, res) {
 app.get("/api/notes", function(req, res) {
     fs.readFile('./db/db.json','utf-8',function(err, data){
         if (err) throw err;
-        console.log(data);
         return res.json(JSON.parse(data));
     })
 });
@@ -43,9 +42,22 @@ app.post("/api/notes", function(req, res) {
 
 //deletes a note when clicked
 app.delete("/api/notes/:id", function(req, res){
-    delete title;
-    delete text;
-    res.json({ ok: true });
+    var target = req.params.id
+    fs.readFile('./db/db.json','utf-8',function(err, data){
+        if (err) throw err;
+        var object = JSON.parse(data)
+        for(let i = 0; i<target; i++){
+        var objectId = object[i].id
+        if (target == objectId)
+        {
+            notes.splice(i,1);
+            fs.writeFile('./db/db.json',`[${notes}]`,"utf-8",function(err){
+                if (err) throw err;
+                return res.json(req.body)});
+        }
+    }
+    })
+    
 });
 
 //catch all for HTML at incorrect locatons
